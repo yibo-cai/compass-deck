@@ -1,2 +1,2 @@
 # compass-deck
-UI for Compass
+Web Frontend and RESTful API for Compass
