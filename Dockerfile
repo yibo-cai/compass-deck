@@ -25,6 +25,7 @@ RUN easy_install --upgrade pip && \
     pip install --upgrade pip && \
     pip install --upgrade setuptools && \
     pip install --upgrade virtualenv && \
+    pip install --upgrade redis && \
     pip install --upgrade virtualenvwrapper
 
 # http
@@ -44,30 +45,33 @@ RUN mkdir -p /var/www/compass_web/v2.5 && \
     cp -rf /root/compass-web/v2.5/target/* /var/www/compass_web/v2.5/
 
 # compass-server
-RUN mkdir -p /etc/compass && \
-    mkdir -p /opt/compass/bin && \
+RUN mkdir -p /opt/compass/bin && \
     mkdir -p /opt/compass/db
 ADD misc/apache/ods-server.conf /etc/httpd/conf.d/ods-server.conf
 ADD misc/apache/http_pip.conf /etc/httpd/conf.d/http_pip.conf
 ADD misc/apache/images.conf /etc/httpd/conf.d/images.conf
 ADD misc/apache/packages.conf /etc/httpd/conf.d/packages.conf
-ADD conf/* /etc/compass/
+COPY conf /etc/compass
 ADD bin/* /opt/compass/bin/
 RUN mkdir -p /var/www/compass && \
     ln -s -f /opt/compass/bin/compass_wsgi.py /var/www/compass/compass.wsgi && \
     cp -rf /usr/lib64/libcrypto.so.6 /usr/lib64/libcrypto.so
+    
 
 # install comapss-deck code
 RUN mkdir -p /var/log/compass && \
     chmod -R 777 /var/log/compass  && \
     chmod -R 777 /opt/compass/db && \
-    cd /root/compass-deck && \
+    mkdir -p /root/compass-deck/compass && \
+    mv /root/compass-deck/{actions,api,apiclient,utils,db} /root/compass-deck/compass/ && \
+    touch /root/compass-deck/compass/__init__.py && \
     source `which virtualenvwrapper.sh` && \
     workon compass-core && \
+    cd /root/compass-deck && \
     python setup.py install && \
-    mv /etc/compass/celeryconfig_local /etc/compass/celeryconfig
+    usermod -a -G root apache
 
 EXPOSE 80
-ADD start.sh /root/start.sh
-CMD ['/root/start.sh']
-
+ADD start.sh /usr/local/bin/start.sh
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/usr/local/bin/start.sh"]

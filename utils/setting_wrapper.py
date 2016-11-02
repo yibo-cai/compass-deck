@@ -104,7 +104,7 @@ else:
     if 'COMPASS_SETTING' in os.environ:
         SETTING = os.environ['COMPASS_SETTING']
     else:
-        SETTING = '/etc/compass/compass.conf'
+        SETTING = '/etc/compass/setting'
 
     try:
         logging.info('load setting from %s', SETTING)

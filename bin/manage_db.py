@@ -28,13 +28,10 @@ import switch_virtualenv
 
 from flask.ext.script import Manager
 
-from compass.actions import deploy
-from compass.actions import reinstall
 from compass.api import app
 from compass.db.api import database
 from compass.db.api import switch as switch_api
 from compass.db.api import user as user_api
-from compass.tasks.client import celery
 from compass.utils import flags
 from compass.utils import logsetting
 from compass.utils import setting_wrapper as setting
@@ -160,36 +157,6 @@ def set_switch_machines():
             switch_api.add_switch_machine(
                 switch_id, False, user=user, **machine
             )
-
-
-@app_manager.command
-def reinstall_clusters():
-    """Reinstall hosts in clusters.
-
-    .. note::
-       The hosts are defined in --clusters.
-       The clusters flag is as clusterid:hostname1,hostname2,...;...
-    """
-    cluster_hosts = flags.OPTIONS.clusters
-    if flags.OPTIONS.async:
-        celery.send_task('compass.tasks.reinstall', (cluster_hosts,))
-    else:
-        reinstall.reinstall(cluster_hosts)
-
-
-@app_manager.command
-def deploy_clusters():
-    """Deploy hosts in clusters.
-
-    .. note::
-       The hosts are defined in --clusters.
-       The clusters flag is as clusterid:hostname1,hostname2,...;...
-    """
-    cluster_hosts = flags.OPTIONS.clusters
-    if flags.OPTIONS.async:
-        celery.send_task('compass.tasks.deploy', (cluster_hosts,))
-    else:
-        deploy.deploy(cluster_hosts)
 
 
 if __name__ == "__main__":
