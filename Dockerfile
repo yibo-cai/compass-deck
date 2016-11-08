@@ -63,7 +63,7 @@ RUN mkdir -p /var/log/compass && \
     chmod -R 777 /var/log/compass  && \
     chmod -R 777 /opt/compass/db && \
     mkdir -p /root/compass-deck/compass && \
-    mv /root/compass-deck/{actions,api,apiclient,utils,db} /root/compass-deck/compass/ && \
+    mv /root/compass-deck/{actions,api,apiclient,utils,db,tasks} /root/compass-deck/compass/ && \
     touch /root/compass-deck/compass/__init__.py && \
     source `which virtualenvwrapper.sh` && \
     workon compass-core && \
