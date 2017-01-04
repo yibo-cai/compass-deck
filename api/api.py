@@ -3163,7 +3163,6 @@ def update_host_state(host_id):
     )
 
 
-@util.deprecated
 @app.route("/hosts/<host_id>/state_internal", methods=['PUT', 'POST'])
 def update_host_state_internal(host_id):
     """update host state.
