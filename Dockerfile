@@ -12,7 +12,7 @@ RUN yum update -y
 ADD misc/compass_install.repo /etc/yum.repos.d/compass_install.repo
 
 # Install packages
-RUN yum --enablerepo=compass_install --nogpgcheck install -y python python-devel git wget syslinux amqp mod_wsgi httpd bind rsync yum-utils gcc unzip openssl openssl098e ca-certificates mysql-devel mysql MySQL-python python-virtualenv python-setuptools python-pip bc libselinux-python libffi-devel openssl-devel
+RUN yum --enablerepo=compass_install --nogpgcheck install -y python python-devel git wget syslinux amqp mod_wsgi httpd bind rsync yum-utils gcc unzip openssl openssl098e ca-certificates mysql-devel mysql MySQL-python python-virtualenv python-setuptools python-pip bc libselinux-python libffi-devel openssl-devel vim net-tools
 
 # Add code
 RUN mkdir -p /root/compass-deck
@@ -56,7 +56,7 @@ ADD bin/* /opt/compass/bin/
 RUN mkdir -p /var/www/compass && \
     ln -s -f /opt/compass/bin/compass_wsgi.py /var/www/compass/compass.wsgi && \
     cp -rf /usr/lib64/libcrypto.so.6 /usr/lib64/libcrypto.so
-    
+
 
 # install comapss-deck code
 RUN mkdir -p /var/log/compass && \

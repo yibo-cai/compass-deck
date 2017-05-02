@@ -1597,6 +1597,12 @@ def list_machines():
     )
 
 
+@app.route("/machine/discovery", methods=['POST'])
+def switch_discovery():
+    """switch on/off hardware discovery"""
+    data = _get_request_args()
+
+
 @app.route("/machines", methods=['POST'])
 def add_machine():
     """add machine by tinycore.
@@ -3163,19 +3169,21 @@ def update_host_state(host_id):
     )
 
 
-@app.route("/hosts/<host_id>/state_internal", methods=['PUT', 'POST'])
-def update_host_state_internal(host_id):
+@app.route("/hosts/<hostname>/state_internal", methods=['PUT', 'POST'])
+def update_host_state_internal(hostname):
     """update host state.
 
     Supported fields: ['ready']
     """
     data = _get_request_data()
-    host_id = int(host_id)
-    hosts = host_api.list_hosts(id=host_id)
+#    host_id = int(host_id)
+#    hosts = host_api.list_hosts(id=host_id)
+    hosts = host_api.list_hosts(name=hostname)
     if not hosts:
         raise exception_handler.ItemNotFound(
-            'no hosts found for host_id %s' % host_id
+            'no hosts found for hostname %s' % hostname
         )
+    host_id = hosts[0]['id']
     return utils.make_json_response(
         200,
         host_api.update_host_state_internal(
