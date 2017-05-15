@@ -20,6 +20,15 @@ ADD . /root/compass-deck
 RUN cd /root/ && \
     git clone git://git.openstack.org/openstack/compass-web
 
+RUN mkdir -p /root/compass-deck/compass && \
+    mv /root/compass-deck/actions /root/compass-deck/compass/ && \
+    mv /root/compass-deck/api /root/compass-deck/compass/ && \
+    mv /root/compass-deck/apiclient /root/compass-deck/compass/ && \
+    mv /root/compass-deck/deployment /root/compass-deck/compass/ && \
+    mv /root/compass-deck/utils /root/compass-deck/compass/ && \
+    mv /root/compass-deck/db /root/compass-deck/compass/ && \
+    mv /root/compass-deck/tasks /root/compass-deck/compass/
+
 # pip
 RUN easy_install --upgrade pip && \
     pip install --upgrade pip && \
@@ -62,8 +71,6 @@ RUN mkdir -p /var/www/compass && \
 RUN mkdir -p /var/log/compass && \
     chmod -R 777 /var/log/compass  && \
     chmod -R 777 /opt/compass/db && \
-    mkdir -p /root/compass-deck/compass && \
-    mv /root/compass-deck/{actions,api,apiclient,deployment,utils,db,tasks} /root/compass-deck/compass/ && \
     touch /root/compass-deck/compass/__init__.py && \
     source `which virtualenvwrapper.sh` && \
     workon compass-core && \
