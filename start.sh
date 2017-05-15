@@ -5,4 +5,4 @@ until mysql -h"compass-db" -u"root" -p"root" -e 'show databases'; do
 done
 >&2 echo "DB is up"
 apachectl -k start
-#tail -f /dev/null
+tail -f /dev/null
