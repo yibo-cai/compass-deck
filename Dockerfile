@@ -27,7 +27,8 @@ RUN mkdir -p /root/compass-deck/compass && \
     mv /root/compass-deck/deployment /root/compass-deck/compass/ && \
     mv /root/compass-deck/utils /root/compass-deck/compass/ && \
     mv /root/compass-deck/db /root/compass-deck/compass/ && \
-    mv /root/compass-deck/tasks /root/compass-deck/compass/
+    mv /root/compass-deck/tasks /root/compass-deck/compass/ && \
+    mv /root/compass-deck/log_analyzor /root/compass-deck/compass/
 
 # pip
 RUN easy_install --upgrade pip && \
