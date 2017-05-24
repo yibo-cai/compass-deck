@@ -2055,7 +2055,11 @@ def update_cluster_host_state(
     clusterhost = _get_cluster_host(
         cluster_id, host_id, session=session
     )
+    # Modify(harry): without progress_update.py to update cluster state
+    # update cluster state here
+    cluster = _get_cluster(clusterhost.cluster_id, session=session)
     utils.update_db_object(session, clusterhost.state, **kwargs)
+    utils.update_db_object(session, cluster.state, **kwargs)
     return clusterhost.state_dict()
 
 
@@ -2170,7 +2174,11 @@ def update_clusterhost_state(
     clusterhost = _get_clusterhost(
         clusterhost_id, session=session
     )
+    # Modify(harry): without progress_update.py to update cluster state
+    # update cluster state here
+    cluster = _get_cluster(clusterhost.cluster_id, session=session)
     utils.update_db_object(session, clusterhost.state, **kwargs)
+    utils.update_db_object(session, cluster.state, **kwargs)
     return clusterhost.state_dict()
 
 

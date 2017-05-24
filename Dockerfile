@@ -55,13 +55,14 @@ RUN mkdir -p /var/www/compass_web/v2.5 && \
     cp -rf /root/compass-web/v2.5/target/* /var/www/compass_web/v2.5/
 
 # compass-server
+RUN echo "ServerName compass-deck:80" >> /etc/httpd/conf/httpd.conf
 RUN mkdir -p /opt/compass/bin && \
     mkdir -p /opt/compass/db
 ADD misc/apache/ods-server.conf /etc/httpd/conf.d/ods-server.conf
 ADD misc/apache/http_pip.conf /etc/httpd/conf.d/http_pip.conf
 ADD misc/apache/images.conf /etc/httpd/conf.d/images.conf
 ADD misc/apache/packages.conf /etc/httpd/conf.d/packages.conf
-COPY conf /etc/compass
+#COPY conf /etc/compass
 ADD bin/* /opt/compass/bin/
 RUN mkdir -p /var/www/compass && \
     ln -s -f /opt/compass/bin/compass_wsgi.py /var/www/compass/compass.wsgi && \
