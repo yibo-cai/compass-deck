@@ -18,6 +18,7 @@ git clone git://git.openstack.org/openstack/compass-web $COMPASS_DIR/../compass-
 rm -rf $COMPASS_DIR/../compass-web/.git
 
 easy_install --upgrade pip
+easy_install --upgrade six
 pip install --upgrade pip
 pip install --upgrade setuptools
 pip install --upgrade virtualenv
