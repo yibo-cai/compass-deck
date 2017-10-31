@@ -46,13 +46,13 @@ cp -f $COMPASS_DIR/misc/apache/{ods-server.conf,http_pip.conf,images.conf,packag
 cp -rf $COMPASS_DIR/bin/* /opt/compass/bin/
 mkdir -p /var/www/compass
 ln -s -f /opt/compass/bin/compass_wsgi.py /var/www/compass/compass.wsgi
-cp -rf /usr/lib64/libcrypto.so.6 /usr/lib64/libcrypto.so
+# cp -rf /usr/lib64/libcrypto.so.6 /usr/lib64/libcrypto.so
 
 mkdir -p /var/log/compass
 chmod -R 777 /var/log/compass
 chmod -R 777 /opt/compass/db
 mkdir -p $COMPASS_DIR/compass
-mv $COMPASS_DIR/{actions,api,apiclient,utils,db,tasks,deployment} $COMPASS_DIR/compass/
+cp -a $COMPASS_DIR/{actions,api,apiclient,utils,db,tasks,deployment} $COMPASS_DIR/compass/
 touch $COMPASS_DIR/compass/__init__.py
 source `which virtualenvwrapper.sh`
 workon compass-core
@@ -61,6 +61,7 @@ python setup.py install
 usermod -a -G root apache
 
 yum clean all
+
 
 cp $COMPASS_DIR/start.sh /usr/local/bin/start.sh
 set +x
